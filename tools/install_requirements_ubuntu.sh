@@ -19,7 +19,7 @@ sudo apt-get install -f -y docker-ce docker-ce-cli containerd.io docker-buildx-p
 sudo apt-get remove -f -y  apparmor
 
 # get latest docker compose released tag
-COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+COMPOSE_VERSION=v2.3.3
 
 rm /usr/local/bin/docker-compose
 # Install docker-compose
