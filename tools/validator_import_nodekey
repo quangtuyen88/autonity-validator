@@ -1,3 +1,3 @@
 #!/bin/bash
 
-aut account import-private-key /root/autonity_node/autonitykeys --keyfile /root/.autonity/autonitykeys --keystore /root/.autonity/keystore
+aut account import-private-key /root/autonity_node/autonitykeys --keyfile /root/.autonity/nodekey --keystore /root/.autonity/keystore
