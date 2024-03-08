@@ -29,9 +29,15 @@ PUBLIC_ADDR=$(<"${ROOT_PATH}/../.data/.autonity/oracle.key.public")
 
 CONSENSU=`ethkey autinspect /root/autonity-validator/.data/autonity_node/autonity/autonitykeys | grep "Consensus Public Key:" | awk '{print $NF}'`
 
+
+PUBLIC_ADDR=$(echo "$PUBLIC_ADDR" | tr -d '\n')
+ENODE=$(echo "$ENODE" | tr -d '\n')
+CONSENSU=$(echo "$CONSENSU" | tr -d '\n')
+PROOD=$(echo "$PROOD" | tr -d '\r\n')
+
 #aut validator register $ENODE $PUBLIC_ADDR $PROOD  | aut tx sign - | aut tx send -
 
-RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register "$ENODE" "$PUBLIC_ADDR" "$CONSENSU" "$PROOD" | docker exec -i aut_client  /root/.local/bin/aut tx sign --password $input_password - |  docker exec -i aut_client  /root/.local/bin/aut tx send - |  tr -d $'\r'`
+RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register $ENODE $PUBLIC_ADDR $CONSENSU $PROOD | docker exec -i aut_client  /root/.local/bin/aut tx sign --password $input_password - |  docker exec -i aut_client  /root/.local/bin/aut tx send - |  tr -d $'\r'`
 
 ####OUTPUTTX=`echo $SIGNEDTX |  docker exec -i aut_client  /root/.local/bin/aut tx send - |  tr -d $'\r' `
 
