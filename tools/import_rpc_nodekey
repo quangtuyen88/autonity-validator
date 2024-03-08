@@ -2,6 +2,10 @@
 
 ROOT_PATH=$( dirname -- "$( readlink -f -- "$0"; )"; );
 
-cp $ROOT_PATH/../.data/autonity_node_rpc/autonity/nodekey  $ROOT_PATH/../.data/.autonity/nodekey_rpc.private
+
+
+head -c 64 $ROOT_PATH/../.data/autonity_node_rpc/autonity/autonitykeys  > /root/autonity-validator/.data/autonity_node/autonity/nodekey_imp
+
+###cp $ROOT_PATH/../.data/autonity_node_rpc/autonity/autonitykeys  $ROOT_PATH/../.data/.autonity/nodekey_rpc.private
 
 aut account import-private-key /root/.autonity/nodekey_rpc.private --keyfile /root/.autonity/keystore/nodekey_rpc --keystore /root/.autonity/keystore
