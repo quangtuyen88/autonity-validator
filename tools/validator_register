@@ -45,6 +45,3 @@ RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register $ENO
 echo -e "\nTransaction TX: $RAWTX\n\n"
 
 docker exec -i aut_client  /root/.local/bin/aut tx wait $RAWTX
-
-
- | aut tx sign - | aut tx send -
