@@ -1,3 +1,5 @@
 #!/bin/bash
 
-aut account import-private-key /root/autonity_node/autonitykeys --keyfile /root/.autonity/nodekey --keystore /root/.autonity/keystore
+head -c 64 /root/autonity-validator/.data/autonity_node/autonity/autonitykeys > /root/autonity-validator/.data/autonity_node/autonity/nodekey_imp
+
+aut account import-private-key /root/autonity_node/nodekey_imp --keyfile /root/.autonity/nodekey --keystore /root/.autonity/keystore
