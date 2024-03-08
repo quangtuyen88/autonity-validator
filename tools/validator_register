@@ -31,16 +31,14 @@ CONSENSU=`ethkey autinspect /root/autonity-validator/.data/autonity_node/autonit
 
 #aut validator register $ENODE $PUBLIC_ADDR $PROOD  | aut tx sign - | aut tx send -
 
-RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register "$ENODE" "$PUBLIC_ADDR" "$CONSENSU" "$PROOD"`
+RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register "$ENODE" "$PUBLIC_ADDR" "$CONSENSU" "$PROOD" | docker exec -i aut_client  /root/.local/bin/aut tx sign --password $input_password - |  docker exec -i aut_client  /root/.local/bin/aut tx send - |  tr -d $'\r'`
 
-SIGNEDTX=`echo $RAWTX |  docker exec -i aut_client  /root/.local/bin/aut tx sign --password $input_password -`
-
-OUTPUTTX=`echo $SIGNEDTX |  docker exec -i aut_client  /root/.local/bin/aut tx send - |  tr -d $'\r' `
+####OUTPUTTX=`echo $SIGNEDTX |  docker exec -i aut_client  /root/.local/bin/aut tx send - |  tr -d $'\r' `
 
 #echo -e "Tx info. Please use: aut tx wait 0x00000"
-echo -e "\nTransaction TX: $OUTPUTTX\n\n"
+echo -e "\nTransaction TX: $RAWTX\n\n"
 
-docker exec -i aut_client  /root/.local/bin/aut tx wait $OUTPUTTX
+docker exec -i aut_client  /root/.local/bin/aut tx wait $RAWTX
 
 
  | aut tx sign - | aut tx send -
