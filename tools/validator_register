@@ -23,12 +23,15 @@ do
 done
 
 ENODE=`aut node info | jq -r ".admin_enode"`
-PROOD=`$ROOT_PATH/validator_generate_proof ${input_name}`
+MAIN_ADDR=$(<"${ROOT_PATH}/../.data/.autonity/main.public")
+PROOD=`docker run -t -i --volume /root/autonity-validator/.data:/keystore --name autonity1 --rm ghcr.io/autonity/autonity:latest genOwnershipProof --autonitykeys /keystore/autonity_node/autonity/autonitykeys --oraclekey /keystore/.autonity/oracle.key.private $MAIN_ADDR`
 PUBLIC_ADDR=$(<"${ROOT_PATH}/../.data/.autonity/oracle.key.public")
+
+CONSENSU=`ethkey autinspect /root/autonity-validator/.data/autonity_node/autonity/autonitykeys | grep "Consensus Public Key:" | awk '{print $NF}'`
 
 #aut validator register $ENODE $PUBLIC_ADDR $PROOD  | aut tx sign - | aut tx send -
 
-RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register $ENODE $PUBLIC_ADDR $PROOD`
+RAWTX=`docker exec -ti aut_client  /root/.local/bin/aut  validator register $ENODE $PUBLIC_ADDR CONSENSU $PROOD`
 
 SIGNEDTX=`echo $RAWTX |  docker exec -i aut_client  /root/.local/bin/aut tx sign --password $input_password -`
 
