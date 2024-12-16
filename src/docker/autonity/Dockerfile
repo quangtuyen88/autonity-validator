@@ -5,12 +5,12 @@ RUN apk add --no-cache make gcc musl-dev linux-headers libc-dev git perl-utils
 RUN mkdir /app
 RUN cd /app
 RUN git clone -b v1.0.2-alpha --depth 1 https://github.com/autonity/autonity.git /app/autonity
-RUN cd /app/autonity && make autonity
+RUN cd /app/autonity && make autonity && make ethkey
 FROM alpine:latest
 
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /app/autonity/build/bin/autonity /usr/local/bin/
-#COPY --from=builder /app/autonity/build/bin/ethkey /usr/local/bin/
+COPY --from=builder /app/autonity/build/bin/ethkey /usr/local/bin/
 
 EXPOSE 8545 8546 8547 30303 30303/udp
 ENTRYPOINT ["autonity"]
